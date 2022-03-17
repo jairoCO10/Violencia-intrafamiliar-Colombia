@@ -10,10 +10,9 @@ import requests
 st.set_page_config(page_title='Violencia intrafamiliar', page_icon='sources/icon1.png', layout="wide", initial_sidebar_state="auto", menu_items=None)
 st.title('*Violencia intrafamiliar en Colombia*')
 st.sidebar.header("*Violencia intrafamiliar*")
-st.sidebar.image('sources/Digital presentation.gif')
 @st.cache
 def cargar_datos():
-    return pd.read_csv('https://github.com/DiplomadoUnicor/fastapi/blob/main/book.csv', dtype={'CODIGO DANE': str})
+    return pd.read_csv('book.csv', dtype={'CODIGO DANE': str})
 #st.header("Violencia Intrafamiliar en Colombia")
 
 st.sidebar.markdown("---")
@@ -115,7 +114,7 @@ opcion_año= "AÑO"
 def plot_general_date(melted_asdate: pd.DataFrame, x: pd.DataFrame, y, sales_filter: str):
     data = melted_asdate.copy()
     data = data[data["MUNICIPIO"] == sales_filter]
-    fig = px.histogram(data,  opcion_año,    title= f"{opcion_año}",color_discrete_sequence=px.colors.sequential.Plasma)
+    fig = px.line(data,  opcion_año,    title= f"{opcion_año}",color_discrete_sequence=px.colors.sequential.Plasma)
     fig.update_yaxes(title_text="CANTIDAD")
     # color_discrete_sequence=px.colors.sequential.Plasma,
     return fig, data 
@@ -176,7 +175,7 @@ opcion_y=st.radio(label="     ",options=otra_var_año)
 def plot_año(melted_asdate: pd.DataFrame, x: pd.DataFrame, y, sales_filter: str):
     data = melted_asdate.copy()
     data = data[data["AÑO"] == sales_filter]
-    fig = px.histogram(data, x=x, y=y, title=f"Casos del  {opcion_y}",color_discrete_sequence=px.colors.sequential.Plasma)
+    fig = px.box(data, x=x, y=y, title=f"Casos del  {opcion_y}",color_discrete_sequence=px.colors.sequential.Plasma)
     fig.update_yaxes(title_text="CANTIDAD")
     return fig, data 
 plot_date_año, d = plot_año(datoagrupado, opcion_y,  "CANTIDAD",  opcion_año)
@@ -226,44 +225,44 @@ with col3:
     plotpiegerupo, c = pie_G_etario(datoagrupado, "CANTIDAD", opcion_Getario, opcion_año)
     st.plotly_chart(plotpiegerupo, use_container_width=True)
 
-st.markdown("---")
-st.write("A continuación seleccione los datos los cuales quiere analizar, estos datos analizados arrojaran una predicción de acuerdo a los parámetros que usted desee.")
-###################################################################333
-col1, col2, col3 = st.columns(3)
-with col1:
-    listar_armas = list(datoagrupado['ARMAS MEDIOS'].unique())
-    armas = st.selectbox(label= "selecciona un ARMA", options= listar_armas)
+# st.markdown("---")
+# st.write("A continuación seleccione los datos los cuales quiere analizar, estos datos analizados arrojaran una predicción de acuerdo a los parámetros que usted desee.")
+# ###################################################################333
+# col1, col2, col3 = st.columns(3)
+# with col1:
+#     listar_armas = list(datoagrupado['ARMAS MEDIOS'].unique())
+#     armas = st.selectbox(label= "selecciona un ARMA", options= listar_armas)
     
-    año = st.slider(
-            label = "AÑO", min_value=2010, max_value=2021)
-with col2:
-    lista_genero = list(datoagrupado['GENERO'].unique())
-    opcion_genero = st.selectbox(label= "selecciona un GENERO", options= lista_genero)
-    mes = st.slider(
-        label="MES", min_value=1, max_value=12, value=1
-    )
-with col3:
-    lista_grupo = list(datoagrupado['GRUPO ETARIO'].unique())
-    opcion_grupo = st.selectbox(label= "selecciona un GRUPO", options= lista_grupo)
+#     año = st.slider(
+#             label = "AÑO", min_value=2010, max_value=2021)
+# with col2:
+#     lista_genero = list(datoagrupado['GENERO'].unique())
+#     opcion_genero = st.selectbox(label= "selecciona un GENERO", options= lista_genero)
+#     mes = st.slider(
+#         label="MES", min_value=1, max_value=12, value=1
+#     )
+# with col3:
+#     lista_grupo = list(datoagrupado['GRUPO ETARIO'].unique())
+#     opcion_grupo = st.selectbox(label= "selecciona un GRUPO", options= lista_grupo)
     
-    dia = st.slider(
-        label="DIA", min_value=1, max_value=31, value=1
-    )
+#     dia = st.slider(
+#         label="DIA", min_value=1, max_value=31, value=1
+#     )
 
 
-request_data = [
-    {
-        "DEPARTAMENTO": select_departamento,
-        "MUNICIPIO": opcion_municipio,
-        "ARMAS_MEDIOS": armas,
-        "AÑO": año,
-        "MES": mes,
-        "DIA": dia,
-        "GENERO": opcion_genero,
-        "GRUPO_ETARIO": opcion_grupo
+# request_data = [
+#     {
+#         "DEPARTAMENTO": select_departamento,
+#         "MUNICIPIO": opcion_municipio,
+#         "ARMAS_MEDIOS": armas,
+#         "AÑO": año,
+#         "MES": mes,
+#         "DIA": dia,
+#         "GENERO": opcion_genero,
+#         "GRUPO_ETARIO": opcion_grupo
         
-    }
-]
+#     }
+# ]
 # import json 
 # url_api = "https://apilearndiplomado.herokuapp.com/predict"
 # data_result = json.dumps(request_data)

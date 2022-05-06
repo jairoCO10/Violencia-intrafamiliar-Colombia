@@ -263,13 +263,3 @@ with col3:
         
 #     }
 # ]
-# import json 
-# url_api = "https://apilearndiplomado.herokuapp.com/predict"
-# data_result = json.dumps(request_data)
-# prediccion = requests.post(url=url_api, data=data_result).text
-# st.sidebar.markdown("---")
-
-# st.metric(        
-#     value=f'{pd.read_json(prediccion)["CANTIDAD"][0]}%',
-#     label="Teniendo en cuenta la información pedida anteriormente se puede predecir el porcentaje de violencia intrafamiliar teniendo en cuenta la cantidad",
-#     )
